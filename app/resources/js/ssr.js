@@ -7,6 +7,9 @@ import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 
 const appName = 'Laravel';
 
+import base from './base'
+
+
 createServer((page) =>
     createInertiaApp({
         page,
@@ -20,7 +23,7 @@ createServer((page) =>
                     ...page.props.ziggy,
                     location: new URL(page.props.ziggy.location),
                 })
-                // .mixin(import('./base'))
+                .mixin(base)
                 ;
         },
     })

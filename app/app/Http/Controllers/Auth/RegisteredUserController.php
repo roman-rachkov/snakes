@@ -21,7 +21,9 @@ class RegisteredUserController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Auth/Register');
+        return Inertia::render('Auth/Register', [
+            'referal' => request()->input('ref'),
+        ]);
     }
 
     /**
@@ -34,6 +36,7 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request)
     {
+        dd($request);
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
