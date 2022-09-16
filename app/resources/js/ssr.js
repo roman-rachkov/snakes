@@ -19,7 +19,9 @@ createServer((page) =>
                 .use(ZiggyVue, {
                     ...page.props.ziggy,
                     location: new URL(page.props.ziggy.location),
-                });
+                })
+                // .mixin(import('./base'))
+                ;
         },
     })
 );
