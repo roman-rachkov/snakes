@@ -1,3 +1,8 @@
 {
-    "Welcome": "Привет"
+    "Welcome": "Привет",
+    "Go to game": "В игру",
+    "Logout": "Выйти",
+    "Login": "Войти",
+    "Registration": "Регистрация",
+    "Main": "Главная"
 }

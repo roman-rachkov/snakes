@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import Icon from '@/Components/Icon.vue'
+import Icon from '@/Components/IconFlag.vue'
 import {Link} from "@inertiajs/inertia-vue3";
 
 export default {

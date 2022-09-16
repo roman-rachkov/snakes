@@ -1,18 +1,30 @@
 <template>
-    <header class="flex justify-between items-center h-20 mt-8">
-        <button @click="$emit('showMenu')" class="menu">
+    <header class="sticky z-10 flex justify-between items-center h-20 mt-8">
+        <button @click="$emit('showMenu')" class="menu relative hover:-translate-y-0.5 hover:drop-shadow-lg">
             <button class="burger"></button>
         </button>
-        <Link class="logo text-5xl">
-            <img src="" alt="">
-            BiteCobra
+        <Link class="logo flex items-center justify-center">
+            <img src="../../images/logo.png" alt="BiteCobra">
+            <span>BiteCobra</span>
         </Link>
-        <div class="profile">
+        <div class="profile flex">
             <template v-if="$page.props.auth.user">
-
+                <div class="balance">
+                    <span>35350</span>
+                    <Icon />
+                </div>
+                <Link class="profile">
+                    <span>Кирилл</span>
+                    <Icon/>
+                </Link>
             </template>
             <template v-else>
-
+                <Link :href="route('register')" class="hover:-translate-y-0.5 hover:drop-shadow-lg">
+                    <Icon icon="mingcute:user-add-line" width="25px" height="25px"></Icon>
+                </Link>
+                <Link :href="route('login')" class="ml-10 hover:-translate-y-0.5 hover:drop-shadow-lg">
+                    <Icon icon="radix-icons:enter" width="25px" height="25px"></Icon>
+                </Link>
             </template>
         </div>
     </header>
@@ -20,22 +32,37 @@
 
 <script>
 import {Link} from "@inertiajs/inertia-vue3";
+import {Icon} from "@iconify/vue";
 
 export default {
     name: "Header",
-    components: {Link}
+    components: {Link, Icon}
 }
 </script>
 <style scoped>
 
-.menu{
+.logo {
+    font-size: 40px;
+    font-family: 'Terasong', serif;
+}
+
+.logo span {
+    @apply mt-4;
+}
+
+.logo img {
+    width: 52px;
+    height: 52px;
+}
+
+.menu {
     @apply block flex justify-center items-center;
-    width: 28px;
-    height: 40px;
+    width: 25px;
+    height: 25px;
 }
 
 .burger {
-    @apply block bg-black w-full relative flex justify-center;
+    @apply block bg-black w-full absolute flex justify-center top-1.5;
     height: 2px;
 }
 
