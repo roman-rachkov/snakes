@@ -33,4 +33,8 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('/profile', function (){
+    return '123';
+})->middleware(['auth'])->name('profile');
+
 require __DIR__ . '/auth.php';

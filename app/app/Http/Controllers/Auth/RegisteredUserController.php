@@ -29,14 +29,14 @@ class RegisteredUserController extends Controller
     /**
      * Handle an incoming registration request.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\RedirectResponse
      *
      * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
     {
-        dd($request);
+
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
@@ -49,10 +49,20 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        $user->referer_code = mb_substr(hash('sha256', $user->email . $user->id), 0, 8);
+
+        if ($request->referer) {
+            $user->referer()->associate(User::firstWhere('referer_code', $request->referer));
+        }
+
+        $user->save();
+
         event(new Registered($user));
 
         Auth::login($user);
 
-        return redirect(RouteServiceProvider::HOME);
+        return redirect(RouteServiceProvider::HOME)->with([
+            'user' => $user
+        ]);
     }
 }

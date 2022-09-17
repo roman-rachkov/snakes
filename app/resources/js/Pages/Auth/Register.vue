@@ -5,9 +5,8 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import {Head, Link, useForm, usePage} from '@inertiajs/inertia-vue3';
-import {onMounted} from "vue";
 
-defineProps({
+const props = defineProps({
     referal: (String | null),
 })
 
@@ -19,26 +18,25 @@ const form = useForm({
     password: '',
     password_confirmation: '',
     terms: false,
-    referer: null
+    referer: ''
 });
 
 
-
 const submit = () => {
+    if (props.referal) {
+        form.referer = props.referal;
+    }
     form.post(route('register'), {
         onFinish: () => form.reset('password', 'password_confirmation'),
     });
 };
 
-onMounted(() => {
-    // console.log(referal);
-})
 </script>
 
 <template>
     <GuestLayout>
-        <Head title="Register"/>
-        {{referal}}
+        <Head :title="__('Register')"/>
+
         <form @submit.prevent="submit">
             <div>
                 <InputLabel for="name" value="Name"/>

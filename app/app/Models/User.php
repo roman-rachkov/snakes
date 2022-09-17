@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Orchid\Platform\Models\User as Authenticatable;
 
 class User extends Authenticatable
@@ -16,6 +18,7 @@ class User extends Authenticatable
         'email',
         'password',
         'permissions',
+        'referer_id'
     ];
 
     /**
@@ -35,8 +38,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
-        'permissions'          => 'array',
-        'email_verified_at'    => 'datetime',
+        'permissions' => 'array',
+        'email_verified_at' => 'datetime',
     ];
 
     /**
@@ -49,6 +52,7 @@ class User extends Authenticatable
         'name',
         'email',
         'permissions',
+        'referer_code'
     ];
 
     /**
@@ -63,4 +67,14 @@ class User extends Authenticatable
         'updated_at',
         'created_at',
     ];
+
+    public function referer(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'referer_id', 'id');
+    }
+
+    public function referals(): HasMany
+    {
+        return $this->hasMany(User::class, 'referer_id', 'id');
+    }
 }
