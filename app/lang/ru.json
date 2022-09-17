@@ -5,5 +5,14 @@
     "Login": "Войти",
     "Registration": "Регистрация",
     "Main": "Главная",
-    "Chose your": "Выбери свою"
+    "Chose your": "Выбери свою",
+    "Already registered": "Уже зарегестрированы",
+    "Confirm Password": "Подтвердите пароль",
+    "Password": "Пароль",
+    "Remember me": "Запомнить меня",
+    "Log in": "Войти",
+    "Forgot your password?": "Забыли пароль?",
+    "Name": "Имя"
+
+
 }
