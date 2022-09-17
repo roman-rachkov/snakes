@@ -3,7 +3,7 @@
         <button @click="$emit('closeMenu')" class="close absolute left-3/4 top-14"></button>
         <div class="flex justify-center items-center w-full h-full" v-if="menu">
             <ul>
-                <li v-for="(item, idx) in menu" key="idx" class="mb-5 hover:-translate-y-0.5">
+                <li v-for="(item, idx) in menu" :key="idx" class="mb-5 hover:-translate-y-0.5">
                     <Link :href="route(item.path)" class="text-white text-xl hover:underline">{{ __(item.key) }}</Link>
                 </li>
 
@@ -16,7 +16,7 @@
                     </li>
                     <li class="mb-5 hover:-translate-y-0.5">
                         <Link :href="route('logout')" as="button" method="post" class="text-white text-xl hover:underline hover:text-slate-200 ">{{
-                                __('Logout')
+                                __('Log Out')
                             }}
                         </Link>
                     </li>

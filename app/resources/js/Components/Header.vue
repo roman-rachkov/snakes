@@ -13,10 +13,10 @@
                     <span class="block">{{$page.props.auth.user.balance ?? 0}}</span>
                     <img src="../../images/wallet.svg" alt="balance" width="25" height="25" class="ml-3">
                 </div>
-                <Link class="profile  block ml-10" :href="route('profile')">
+                <Link class="profile block ml-10 hover:drop-shadow-lg hover:-translate-y-0.5" :href="route('profile')">
                     <span>{{$page.props.auth.user.name}}</span>
                 </Link>
-                <Link :href="route('logout')" as="button" method="post" class="ml-10">
+                <Link :href="route('logout')" as="button" method="post" class="ml-10 hover:drop-shadow-lg hover:-translate-y-0.5">
                     <Icon icon="ion:exit-outline" width="25px" height="25px"/>
                 </Link>
             </template>
