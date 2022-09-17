@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ChatController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -29,12 +30,14 @@ Route::get('/', function () {
     ]);
 })->name('main');
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/game', function () {
+    return Inertia::render('Game/Arena');
+})->middleware(['auth', 'verified'])->name('game.arena');
 
-Route::get('/profile', function (){
+Route::get('/profile', function () {
     return '123';
 })->middleware(['auth'])->name('profile');
+
+Route::post('chat', [ChatController::class, 'sendMessage'])->middleware(['auth', 'verified'])->name('chat');
 
 require __DIR__ . '/auth.php';

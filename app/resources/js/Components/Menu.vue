@@ -9,7 +9,7 @@
 
                 <template v-if="$page.props.auth.user">
                     <li class="mb-5 hover:-translate-y-0.5">
-                        <Link :href="route('dashboard')" class="text-white text-xl hover:underline hover:text-slate-200 ">{{
+                        <Link :href="route('game.arena')" class="text-white text-xl hover:underline hover:text-slate-200 ">{{
                                 __('Go to game')
                             }}
                         </Link>

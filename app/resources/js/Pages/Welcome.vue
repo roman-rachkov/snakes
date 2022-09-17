@@ -1,15 +1,6 @@
 <script setup>
-import {Head, Link} from '@inertiajs/inertia-vue3';
-import LanguageSelector from "@/Components/LanguageSelector.vue";
+import {Head} from '@inertiajs/inertia-vue3';
 import MainLayout from "@/Layouts/MainLayout.vue";
-
-defineProps({
-    canLogin: Boolean,
-    canRegister: Boolean,
-    laravelVersion: String,
-    phpVersion: String,
-})
-
 </script>
 
 <template>
@@ -19,7 +10,8 @@ defineProps({
         <div class="flex justify-center items-center h-full">
             <img src="https://loremflickr.com/1280/720/snake,cobra" class="w-1/2 object-contain my-auto"/>
             <div class="info ml-20">
-                <h1 class="mb-5 text-8xl ">{{__('Chose your')}} <span style="font-family: Terasong, Serif">BiteCobra</span></h1>
+                <h1 class="mb-5 text-8xl ">{{ __('Chose your') }} <span
+                    style="font-family: Terasong, Serif">BiteCobra</span></h1>
                 <p class="">
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aliquam amet architecto consequatur
                     consequuntur cumque dolore dolorem doloremque dolorum eligendi eos est ex fugiat illum incidunt
