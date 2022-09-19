@@ -41,8 +41,4 @@ class ChatMessageRecived implements ShouldBroadcast
         }
         return new PresenceChannel('global.chat');
     }
-
-    public function broadcastAs() {
-        return 'new-message';
-    }
 }

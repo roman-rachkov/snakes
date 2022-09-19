@@ -3,7 +3,7 @@
         <button @click="$emit('showMenu')" class="menu relative hover:-translate-y-0.5 hover:drop-shadow-lg">
             <button class="burger"></button>
         </button>
-        <Link class="logo flex items-center justify-center">
+        <Link class="logo flex items-center justify-center" :href="route('main')">
             <img src="../../images/logo.png" alt="BiteCobra">
             <span>BiteCobra</span>
         </Link>

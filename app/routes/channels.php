@@ -24,5 +24,5 @@ Broadcast::channel('chat.{id}', function (User $user, int $id) {
 });
 
 Broadcast::channel('global.chat', function (User $user){
-    return Auth::check();
-});
+    return Auth::user();
+}, ['guards' => ['web', 'auth', 'verified']]);

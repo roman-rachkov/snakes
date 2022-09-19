@@ -10,6 +10,7 @@
 import TextInput from './TextInput.vue'
 import {useForm, usePage} from "@inertiajs/inertia-vue3";
 import {onMounted} from "vue";
+// import {__} from "@/translator";
 
 const page = usePage();
 
@@ -17,17 +18,33 @@ const form = useForm({
     message: ''
 });
 
+const userJoinForm = useForm({
+    user: {}
+})
+
 onMounted(() => {
     window.Echo.join('global.chat')
-        .joining(() => console.log(page.props.auth.user.name))
-        .listen('.new-message', function (e) {
-        console.log(e);
-    });
+        .joining((user) => {
+            {
+                userJoined(user);
+            }
+        })
+        .listen('ChatMessageRecived', function (e) {
+            console.log(e);
+        });
 })
 
 const sendMessage = function () {
     form.post(route('chat'), {
         onFinish: () => form.reset('message')
+    })
+}
+
+const userJoined = function (user) {
+    console.log(user);
+    userJoinForm.user = user;
+    userJoinForm.post(route('chat.join'), {
+        onFinish: () => form.reset('user')
     })
 }
 </script>

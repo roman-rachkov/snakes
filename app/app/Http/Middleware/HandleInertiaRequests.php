@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;
 
@@ -19,7 +20,7 @@ class HandleInertiaRequests extends Middleware
     /**
      * Determine the current asset version.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return string|null
      */
     public function version(Request $request)
@@ -30,7 +31,7 @@ class HandleInertiaRequests extends Middleware
     /**
      * Define the props that are shared by default.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array
      */
     public function share(Request $request)
@@ -40,10 +41,13 @@ class HandleInertiaRequests extends Middleware
                 'user' => Auth::user(),
             ],
             'ziggy' => function () use ($request) {
-                return array_merge((new Ziggy)->toArray(), [
-                    'location' => $request->url(),
-                    'query' => $request->query()
-                ]);
+                return array_merge(
+                    (new Ziggy)->toArray(),
+                    [
+                        'location' => $request->url(),
+                        'query' => $request->query()
+                    ]
+                );
             },
         ]);
     }
