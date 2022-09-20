@@ -1,7 +1,9 @@
 <template>
     <MainLayout>
-        <slot/>
-        <Chat :page="$page"/>
+        <div class="grow-[8]">
+            <slot />
+        </div>
+        <Chat class="grow" :page="$page"/>
     </MainLayout>
 
 </template>

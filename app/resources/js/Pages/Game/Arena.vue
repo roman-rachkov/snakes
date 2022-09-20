@@ -1,6 +1,6 @@
 <template>
     <GameLayout>
-        123
+        <div class="h-[500px]"></div>
     </GameLayout>
 </template>
 
