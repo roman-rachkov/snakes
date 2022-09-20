@@ -16,7 +16,7 @@
 <script setup>
 import TextInput from './TextInput.vue'
 import {useForm} from "@inertiajs/inertia-vue3";
-import {onMounted} from "vue";
+import {onMounted, watch} from "vue";
 import ChatMessage from "@/Components/ChatMessage.vue";
 
 import {useChat} from "@/Store/chat";
@@ -35,7 +35,7 @@ onMounted(() => {
     window.Echo.join('global.chat')
         .joining((user) => {
             {
-                addMessage({
+                chat.addMessage({
                     userName: 'System',
                     message: 'User ' + user.name + ' join to game',
                     time: new Date().toISOString()
@@ -43,7 +43,7 @@ onMounted(() => {
             }
         })
         .listen('ChatMessageReceived', function (event) {
-            addMessage({
+            chat.addMessage({
                 userName: event.message.author.name,
                 message: event.message.message,
                 time: event.message.time
@@ -54,7 +54,7 @@ onMounted(() => {
 const sendMessage = () => {
     form.post(route('chat'), {
         onSuccess: () => {
-            addMessage({
+            chat.addMessage({
                 userName: props.page.props.auth.user.name,
                 message: form.message,
                 time: new Date().toISOString()
@@ -67,11 +67,11 @@ const sendMessage = () => {
     })
 }
 
-const addMessage = (message) => {
-    chat.addMessage(message);
+watch(chat.messages, () => {
     const chatMessages = document.getElementById('messages');
     chatMessages.scrollTop = chatMessages.scrollHeight;
-}
+})
+
 
 </script>
 
