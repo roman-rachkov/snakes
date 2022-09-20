@@ -1,11 +1,12 @@
 <template>
     <div id="chat" class="flex flex-col min-h-2/6 mt-auto mb-2">
-        <div id="messages" >
+        <div id="messages" class="grow-[5]">
             <ChatMessage v-for="message in chat.messages" :message="message"/>
         </div>
-        <form @submit.prevent="sendMessage" class="flex">
+        <form @submit.prevent="sendMessage" class="flex grow" >
             <TextInput type="text" name="message" v-model="form.message" class="grow-[5]"/>
-            <div class="wrp grow pl-2">
+
+            <div class="grow pl-2">
                 <button type="submit" class="border-solid border border-slate-400 w-full h-full rounded hover:bg-slate-200">{{ __('Send') }}</button>
             </div>
         </form>
@@ -39,7 +40,7 @@ onMounted(() => {
                 })
             }
         })
-        .listen('ChatMessageRecived', function (event) {
+        .listen('ChatMessageReceived', function (event) {
             chat.addMessage({
                 userName: event.message.author.name,
                 message: event.message.message,
@@ -52,8 +53,16 @@ const chat = useChat();
 
 const sendMessage = function () {
     form.post(route('chat'), {
-        onFinish: () => {
-            form.reset('message');
+        onSuccess: () => {
+            chat.addMessage({
+                userName: props.page.props.auth.user.name,
+                message: form.message,
+                time: new Date().toISOString()
+            })
+            form.reset();
+        },
+        headers: {
+            'X-Socket-ID': Echo.socketId(),
         }
     })
 }

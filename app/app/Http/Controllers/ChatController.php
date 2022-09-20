@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Dto\Message;
-use App\Events\ChatMessageRecived;
+use App\Events\ChatMessageReceived;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -22,8 +22,7 @@ class ChatController extends Controller
             ]
         );
 
-        broadcast(new ChatMessageRecived($message))->toOthers();
-        return ['status' => 'ok'];
+        broadcast(new ChatMessageReceived($message))->toOthers();
     }
 
 }
