@@ -29,6 +29,8 @@ const form = useForm({
     message: ''
 });
 
+const chat = useChat();
+
 onMounted(() => {
     window.Echo.join('global.chat')
         .joining((user) => {
@@ -48,8 +50,6 @@ onMounted(() => {
             })
         });
 })
-
-const chat = useChat();
 
 const sendMessage = function () {
     form.post(route('chat'), {
