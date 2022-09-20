@@ -26,14 +26,4 @@ class ChatController extends Controller
         return ['status' => 'ok'];
     }
 
-    public function userJoin(Request $request)
-    {
-        broadcast(new ChatMessageRecived(Message::create([
-            'author' => Auth::user(),
-            'message' => __('User '. Auth::user()->name .' joint to game.'),
-            'recipient' => null,
-            'time' => Carbon::now()
-        ])))->toOthers();
-        return ['status' => 'join'];
-    }
 }

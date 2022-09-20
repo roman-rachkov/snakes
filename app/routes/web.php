@@ -39,6 +39,5 @@ Route::get('/profile', function () {
 })->middleware(['auth'])->name('profile');
 
 Route::post('chat', [ChatController::class, 'sendMessage'])->middleware(['auth', 'verified'])->name('chat');
-Route::post('chat/join', [ChatController::class, 'userJoin'])->middleware(['auth', 'verified'])->name('chat.join');
 
 require __DIR__ . '/auth.php';

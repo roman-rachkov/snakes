@@ -1,7 +1,7 @@
 <template>
     <MainLayout>
         <slot/>
-        <Chat/>
+        <Chat :page="$page"/>
     </MainLayout>
 
 </template>

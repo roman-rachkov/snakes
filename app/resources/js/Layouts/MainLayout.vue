@@ -1,13 +1,13 @@
 <template>
-    <div class="container mx-auto px-2 h-full flex flex-col min-h-screen justify-between">
+    <div class="container mx-auto px-2 flex flex-col min-h-screen">
         <Header @showMenu="showMenu = true"/>
         <Transition name="slide-fade">
             <Menu v-if="showMenu" @closeMenu="showMenu = false"/>
         </Transition>
-        <main class="h-full">
+        <main class="flex flex-col h-full grow">
             <slot/>
         </main>
-        <Footer />
+        <Footer class="mt-auto"/>
     </div>
 
 </template>
