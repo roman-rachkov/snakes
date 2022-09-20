@@ -51,7 +51,7 @@ onMounted(() => {
         });
 })
 
-const sendMessage = function () {
+const sendMessage = () => {
     form.post(route('chat'), {
         onSuccess: () => {
             addMessage({
