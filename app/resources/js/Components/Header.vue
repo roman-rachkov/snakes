@@ -1,9 +1,9 @@
 <template>
-    <header class="sticky z-10 flex justify-between items-center h-20 mt-8">
+    <header class="sticky z-10 flex justify-between items-center h-20 mt-6 mb-6">
         <button @click="$emit('showMenu')" class="menu relative hover:-translate-y-0.5 hover:drop-shadow-lg">
             <button class="burger"></button>
         </button>
-        <Link class="logo flex items-center justify-center" :href="route('main')">
+        <Link class="logo flex items-center justify-center absolute right-[50%] translate-x-[50%]" :href="route('main')">
             <img src="../../images/logo.png" alt="BiteCobra">
             <span>BiteCobra</span>
         </Link>
