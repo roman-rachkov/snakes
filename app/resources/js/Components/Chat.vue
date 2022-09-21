@@ -3,11 +3,15 @@
         <div id="messages" class="mb-2 border-y pt-2 overflow-y-scroll max-h-[250px] mt-auto">
             <ChatMessage v-for="message in chat.messages" :message="message"/>
         </div>
-        <form @submit.prevent="sendMessage" class="flex mt-auto" >
-            <TextInput ref="chatInput" type="text" name="message" v-model="form.message" class="grow-[6]"/>
+        <form @submit.prevent="sendMessage" class="flex mt-auto">
+            <TextInput ref="input" type="text" name="message" v-model="form.message" class="grow-[6]"/>
 
             <div class="grow pl-2">
-                <button type="submit" class="border-solid border border-slate-400 w-full h-full rounded hover:bg-slate-200">{{ __('Send') }}</button>
+                <button type="submit"
+                        class="border-solid border border-slate-400 w-full h-full rounded hover:bg-slate-200">{{
+                        __('Send')
+                    }}
+                </button>
             </div>
         </form>
     </div>
@@ -16,7 +20,7 @@
 <script setup>
 import TextInput from './TextInput.vue'
 import {useForm} from "@inertiajs/inertia-vue3";
-import {onMounted, watch, ref} from "vue";
+import {onMounted, watch, ref, nextTick} from "vue";
 import ChatMessage from "@/Components/ChatMessage.vue";
 
 import {useChat} from "@/Store/chat";
@@ -51,7 +55,7 @@ onMounted(() => {
         });
 })
 
-const chatInput = ref('chatInput');
+const input = ref(null);
 
 const sendMessage = () => {
     form.post(route('chat'), {
@@ -62,7 +66,7 @@ const sendMessage = () => {
                 time: new Date().toISOString()
             })
             form.reset();
-            chatInput.value.focus();
+            input.value.input.focus()
         },
         headers: {
             'X-Socket-ID': Echo.socketId(),
