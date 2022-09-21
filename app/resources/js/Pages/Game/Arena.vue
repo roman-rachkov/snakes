@@ -14,7 +14,9 @@
                         <td>{{ __('Bid') }}</td>
                         <td>{{ __('Mode') }}</td>
                         <td>{{ __('Players') }}</td>
-                        <td></td>
+                        <td>
+                            <button>{{ __('Make Room') }}</button>
+                        </td>
                     </tr>
                     </thead>
                     <tbody>
@@ -29,7 +31,7 @@
                         <td>{{ __('Deathmatch') }}</td>
                         <td>1/2</td>
                         <td>
-                            <Link >{{__('Accept')}}</Link>
+                            <Link>{{ __('Accept') }}</Link>
                         </td>
                     </tr>
                     </tbody>
@@ -39,13 +41,19 @@
     </GameLayout>
 </template>
 
-<script>
+<script setup>
 import GameLayout from "@/Layouts/GameLayout.vue";
 import {Link} from "@inertiajs/inertia-vue3";
-export default {
-    name: "Arena",
-    components: {GameLayout, Link}
-}
+import {useRooms} from "@/Store/rooms";
+import {onMounted} from "vue";
+
+const rooms = useRooms();
+
+onMounted(() => {
+    rooms.init();
+});
+
+
 </script>
 
 <style scoped>

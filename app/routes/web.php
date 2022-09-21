@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ArenaController;
 use App\Http\Controllers\ChatController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -39,5 +40,7 @@ Route::get('/profile', function () {
 })->middleware(['auth'])->name('profile');
 
 Route::post('chat', [ChatController::class, 'sendMessage'])->middleware(['auth', 'verified'])->name('chat');
+
+Route::get('/arena', [ArenaController::class, 'index'])->middleware(['auth', 'verified'])->name('arena');
 
 require __DIR__ . '/auth.php';
