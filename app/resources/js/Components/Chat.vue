@@ -58,20 +58,22 @@ onMounted(() => {
 const input = ref(null);
 
 const sendMessage = () => {
-    form.post(route('chat'), {
-        onSuccess: () => {
-            chat.addMessage({
-                userName: props.page.props.auth.user.name,
-                message: form.message,
-                time: new Date().toISOString()
-            })
-            form.reset();
-            input.value.input.focus()
-        },
-        headers: {
-            'X-Socket-ID': Echo.socketId(),
-        }
-    })
+    if (form.message.trim()) {
+        form.post(route('chat'), {
+            onSuccess: () => {
+                chat.addMessage({
+                    userName: props.page.props.auth.user.name,
+                    message: form.message.trim(),
+                    time: new Date().toISOString()
+                })
+                form.reset();
+                input.value.input.focus()
+            },
+            headers: {
+                'X-Socket-ID': Echo.socketId(),
+            }
+        })
+    }
 }
 
 watch(chat.messages, () => {

@@ -11,6 +11,7 @@ use Orchid\Platform\Models\User as Authenticatable;
 class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -67,6 +68,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'id',
         'name',
         'email',
+        'balance',
         'updated_at',
         'created_at',
     ];
@@ -76,8 +78,14 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsTo(User::class, 'referer_id', 'id');
     }
 
-    public function referals(): HasMany
+    public function referrals(): HasMany
     {
         return $this->hasMany(User::class, 'referer_id', 'id');
     }
+
+    public function snakes(): HasMany
+    {
+        return $this->hasMany(Snake::class);
+    }
+
 }
