@@ -1,6 +1,7 @@
 <template>
     <div class="container mx-auto px-2 flex flex-col min-h-screen">
         <Header @showMenu="showMenu = true"/>
+        <hr class="mb-2">
         <Transition name="slide-fade">
             <Menu v-if="showMenu" @closeMenu="showMenu = false"/>
         </Transition>

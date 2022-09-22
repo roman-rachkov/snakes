@@ -1,6 +1,6 @@
 <template>
     <MainLayout>
-        <div class="grow-[8]">
+        <div class="grow-[8] mb-2 h-[520px]">
             <slot />
         </div>
         <Chat class="grow" :page="$page"/>

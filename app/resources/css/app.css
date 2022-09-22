@@ -9,3 +9,31 @@
     src: local('Terasong'), url("../fonts/Terasong.ttf");
 }
 
+.custom-scrollbar {
+    @apply scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-slate-300 scrollbar-thumb-rounded-full scrollbar-track-rounded-full
+}
+
+.table-td {
+    @apply min-w-[120px] flex justify-center items-center
+}
+
+.close {
+    width: 25px;
+    height: 25px;
+    /*@apply relative;*/
+}
+
+.close:before,
+.close:after {
+    @apply w-full bg-white block h-0.5 absolute rotate-45 top-3;
+    content: '';
+}
+
+.close:after {
+    @apply -rotate-45;
+}
+
+.close:hover:before,
+.close:hover:after {
+    @apply bg-slate-200 -translate-y-0.5 drop-shadow-lg;
+}

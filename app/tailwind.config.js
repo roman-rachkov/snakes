@@ -14,11 +14,18 @@ module.exports = {
             fontFamily: {
                 sans: ['Roboto', ...defaultTheme.fontFamily.sans],
             },
-            colors:{
+            colors: {
                 'black': '#090909'
             }
         },
     },
 
-    plugins: [require('@tailwindcss/forms')],
+    plugins: [
+        require('@tailwindcss/forms'),
+        require('tailwind-scrollbar')
+    ],
+
+    variants: {
+        scrollbar: ['rounded']
+    }
 };

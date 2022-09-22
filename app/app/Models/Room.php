@@ -12,9 +12,9 @@ class Room extends Model
 {
     use HasFactory;
 
-    public function open(Builder $builder, Model $model)
+    public function scopeOpen(Builder $builder)
     {
-        $builder->whereNotIn('status', [RoomStatus::CANCELED, RoomStatus::FINISHED]);
+        return $builder->whereNotIn('status', [RoomStatus::CANCELED, RoomStatus::FINISHED]);
     }
 
     public function user(): BelongsTo

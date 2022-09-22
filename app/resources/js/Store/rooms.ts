@@ -1,5 +1,5 @@
 import {defineStore} from "pinia";
-import {Inertia} from "@inertiajs/inertia";
+import axios from "axios";
 
 export const useRooms = defineStore('rooms', {
     state: () => ({
@@ -7,17 +7,22 @@ export const useRooms = defineStore('rooms', {
     }),
     actions: {
         async init(state) {
-            this.rooms = await Inertia.get(route('arena'));
+            // @ts-ignore
+            await axios.get(route('arena')).then(response => {
+                this.rooms = response.data;
+            });
         },
     }
 });
 
-interface room {
+export interface room {
     id: number,
     playerName: string,
-    levels: string,
+    maxLevel: string,
+    minLevel: string,
     bid: number,
     mode: string,
     currentPlayers: number,
     maxPlayers: number,
+    status: string
 }

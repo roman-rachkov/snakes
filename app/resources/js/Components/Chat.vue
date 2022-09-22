@@ -1,6 +1,6 @@
 <template>
-    <div id="chat" class="flex flex-col mt-auto mb-2 max-h-[200px]">
-        <div id="messages" class="mb-2 border-y pt-2 overflow-y-scroll max-h-[250px] mt-auto">
+    <div id="chat" class="flex flex-col mt-auto my-2 h-full max-h-[280px] bg-white">
+        <div id="messages" class="mb-2 border-y py-2 overflow-y-scroll h-[200px] mt-auto custom-scrollbar">
             <ChatMessage v-for="message in chat.messages" :message="message"/>
         </div>
         <form @submit.prevent="sendMessage" class="flex mt-auto">

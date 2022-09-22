@@ -1,5 +1,5 @@
 <template>
-    <header class="sticky z-10 flex justify-between items-center h-20 mt-6 mb-6">
+    <header class="sticky z-10 flex justify-between items-center h-20">
         <button @click="$emit('showMenu')" class="menu relative hover:-translate-y-0.5 hover:drop-shadow-lg">
             <button class="burger"></button>
         </button>

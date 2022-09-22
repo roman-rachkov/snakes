@@ -7,7 +7,7 @@ namespace App\Enums;
 enum RoomMode: string
 {
     case DEATHMATCH = 'Deathmatch';
-    case COMMAND = 'Command';
+    case TEAM = 'Team';
 
     public static function arrayValues(): array
     {

@@ -17,8 +17,8 @@ return new class extends Migration {
     {
         Schema::create('rooms', function (Blueprint $table) {
             $table->id();
-            $table->enum('status', RoomStatus::arrayValues())->default(RoomStatus::OPEN);
-            $table->enum('mode', RoomMode::arrayValues())->default(RoomMode::DEATHMATCH);
+            $table->enum('status', RoomStatus::arrayValues())->default(RoomStatus::OPEN->value);
+            $table->enum('mode', RoomMode::arrayValues())->default(RoomMode::DEATHMATCH->value);
             $table->integer('max_players')->default(2);
             $table->foreignIdFor(User::class);
             $table->timestamps();

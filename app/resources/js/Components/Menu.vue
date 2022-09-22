@@ -59,24 +59,5 @@ export default {
 </script>
 
 <style scoped>
-.close {
-    width: 25px;
-    height: 25px;
-    @apply relative;
-}
 
-.close:before,
-.close:after {
-    @apply w-full bg-white block h-0.5 absolute rotate-45 top-3;
-    content: '';
-}
-
-.close:after {
-    @apply -rotate-45;
-}
-
-.close:hover:before,
-.close:hover:after {
-    @apply bg-slate-200 -translate-y-0.5 drop-shadow-lg;
-}
 </style>
