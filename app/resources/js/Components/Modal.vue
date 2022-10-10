@@ -1,6 +1,6 @@
 <template>
-    <div class="modal fixed w-screen h-screen bg-black bg-opacity-75 top-0 bottom-0 right-0 left-0 z-20" @click="close">
-        <div ref="backPlate"
+    <div class="modal fixed w-screen h-screen bg-black bg-opacity-75 top-0 bottom-0 right-0 left-0 z-20" @click="close" ref="backPlate">
+        <div
             class="absolute w-[50vw] h-[50vh] bg-white -translate-y-[50%] -translate-x-[50%] top-[50%] left-[50%] rounded flex">
             <button @click="emits('closeModal')"
                     class="close absolute right-[25px] top-[25px] before:bg-black after:bg-black"></button>
@@ -18,7 +18,7 @@ const backPlate = ref(null);
 const emits = defineEmits(['closeModal'])
 
 const close = (event) => {
-    if(event.target !== backPlate.value){
+    if(event.target === backPlate.value){
         emits('closeModal');
     }
 }

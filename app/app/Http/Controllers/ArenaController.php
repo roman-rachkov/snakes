@@ -6,28 +6,52 @@ use App\Enums\RoomMode;
 use App\Enums\RoomStatus;
 use App\Models\Room;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class ArenaController extends Controller
 {
     public function index()
     {
-        $arr = [];
+        $rooms = Room::open()->get();
 
-        for ($i = 1; $i < 10; $i++) {
-            $arr[] = [
-                'id' => $i,
-                'playerName' => 'test' . $i,
-                'maxLevel' => rand(3, 8),
-                'minLevel' => rand(1, 2),
-                'bid' => rand(10, 1000),
-                'mode' => RoomMode::arrayValues()[rand(0, count(RoomMode::arrayValues()) - 1)],
-                'currentPlayers' => rand(1, 2),
-                'maxPlayers' => rand(2, 8),
-                'status' => RoomStatus::arrayValues()[rand(0, 1)]
-            ];
+        //TODO Write normal settings
+        $rooms->map(function ($item) {
+
+            $item['min_level'] = max(1, $item->user->snake->level - config('main.min_level', 2));
+            $item['max_level'] = $item->user->snake->level + config('main.max_level', 2);
+            $item['current_players'] = $item->users->count();
+
+        });
+
+        return $rooms;
+    }
+
+    public function create(Request $request)
+    {
+        $data = $request->validate([
+            'password' => '',
+            'bid' => 'integer|multiple_of:10',
+            'max_players' => 'integer|multiple_of:2',
+            'mode' => 'in:' . implode(',', RoomMode::arrayValues()),
+        ]);
+
+        $data['user_id'] = Auth::user()->id;
+
+        if (str($data['password'])->length() > 0) {
+            $data['status'] = RoomStatus::CLOSED;
         }
 
+        $room = Room::create($data);
 
-        return json_encode($arr);
+        return redirect(route('arena.join', ['room' => $room]));
+    }
+
+    public function joinRoom(Request $request, Room $room)
+    {
+
+        $room->users()->attach(Auth::user());
+
+        return Inertia::render('Game/BattleRoom', ['room' => $room]);
     }
 }

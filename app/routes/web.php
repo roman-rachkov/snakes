@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\RoomMode;
 use App\Http\Controllers\ArenaController;
 use App\Http\Controllers\ChatController;
 use Illuminate\Foundation\Application;
@@ -32,7 +33,7 @@ Route::get('/', function () {
 })->name('main');
 
 Route::get('/game', function () {
-    return Inertia::render('Game/Arena');
+    return Inertia::render('Game/Arena', ['gameModes' => RoomMode::arrayValues()]);
 })->middleware(['auth', 'verified'])->name('game.arena');
 
 Route::get('/profile', function () {
@@ -42,5 +43,7 @@ Route::get('/profile', function () {
 Route::post('chat', [ChatController::class, 'sendMessage'])->middleware(['auth', 'verified'])->name('chat');
 
 Route::get('/arena', [ArenaController::class, 'index'])->middleware(['auth', 'verified'])->name('arena');
+Route::post('/arena', [ArenaController::class, 'create'])->middleware(['auth', 'verified'])->name('arena.create');
+Route::get('/arena/battle/{room}', [ArenaController::class, 'joinRoom'])->middleware(['auth', 'verified'])->name('arena.join');
 
 require __DIR__ . '/auth.php';

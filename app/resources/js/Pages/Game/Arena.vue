@@ -33,27 +33,40 @@
         </div>
 
         <Modal v-if="createRoomModal" @closeModal="createRoomModal= false">
-            <form>
+            <form @submit="makeRoom">
                 <div>
                     <InputLabel for="bid" :value="__('Bid')"/>
-                    <TextInput id="bid" type="number" min="0" step="10" class="mt-1 w-full"/>
+                    <TextInput id="bid" type="number" min="0" step="10" class="mt-1 w-full" v-model="form.bid"/>
                     <InputError class="mt-2" :message="form.errors.bid"/>
                 </div>
 
                 <div class="mt-4">
                     <InputLabel for="players" :value="__('Max players')"/>
-                    <TextInput id="players" type="number" min="2" step="1" max="8" class="mt-1 w-full"/>
+                    <TextInput disabled="true" id="players" type="number" min="2" step="1" max="8"
+                               class="mt-1 w-full disabled:bg-slate-200 disabled:border-slate-200"
+                               v-model="form.max_players"/>
                     <InputError class="mt-2" :message="form.errors.players"/>
                 </div>
 
                 <div class="mt-4">
                     <InputLabel for="mode" :value="__('Battle mode')"/>
-                    <SelectInput>
-                        <option value="Deathmatch" selected>{{__('Deathmatch')}}</option>
-                        <option value="Team">{{__('Team')}}</option>
+                    <SelectInput :disabled="true" v-model="form.mode"
+                                 class="disabled:bg-slate-200 disabled:border-slate-200">
+                        <option v-for="mode in $page.props.gameModes" :value="mode">{{ __(mode) }}</option>
                     </SelectInput>
                     <InputError class="mt-2" :message="form.errors.mode"/>
                 </div>
+
+                <div class="mt-4">
+                    <InputLabel for="password" :value="__('Password')"/>
+                    <TextInput id="password" type="text" class="mt-1 w-full" v-model="form.password"/>
+                    <InputError class="mt-2" :message="form.errors.password"/>
+                </div>
+                <button type="submit"
+                        class="float-right mt-4 border-slate-200 border py-2 px-4 rounded hover:bg-slate-200">{{
+                        __('Make Room')
+                    }}
+                </button>
             </form>
         </Modal>
     </GameLayout>
@@ -67,25 +80,39 @@ import RoomItem from "@/Components/RoomItem.vue";
 import {Icon} from "@iconify/vue";
 import Modal from "@/Components/Modal.vue";
 import InputLabel from '@/Components/InputLabel.vue';
+
 import InputError from '@/Components/InputError.vue';
 import TextInput from '@/Components/TextInput.vue';
 import SelectInput from '@/Components/SelectInput.vue';
-import {useForm} from "@inertiajs/inertia-vue3";
+import {useForm, usePage} from "@inertiajs/inertia-vue3";
 
 const arena = useRooms();
 
 const createRoomModal = ref(false);
 
+const page = usePage();
+
 const form = useForm({
-    bid: Number,
-    players: Number,
-    mode: String,
+    bid: 100,
+    max_players: 2,
+    mode: 'Deathmatch',
+    password: ''
 });
 
 onMounted(() => {
     arena.init();
 });
 
+const makeRoom = () => {
+    form.post(route('arena.create'), {
+        onFinish: () => {
+                form.reset();
+        },
+        // onSuccess: (response) => {
+        //     console.log(response);
+        // }
+    });
+};
 
 </script>
 

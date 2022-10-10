@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Notifications\Notifiable;
 use Orchid\Platform\Models\User as Authenticatable;
 
@@ -86,6 +87,16 @@ class User extends Authenticatable implements MustVerifyEmail
     public function snakes(): HasMany
     {
         return $this->hasMany(Snake::class);
+    }
+
+    public function snake(): HasOne
+    {
+        return $this->hasOne(Snake::class);
+    }
+
+    public function rooms(): BelongsTo
+    {
+        return $this->belongsTo(Room::class);
     }
 
 }

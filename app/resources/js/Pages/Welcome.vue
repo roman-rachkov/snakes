@@ -8,7 +8,7 @@ import MainLayout from "@/Layouts/MainLayout.vue";
 
     <MainLayout>
         <div class="flex justify-center items-center h-full">
-            <img src="../../images/collage.jpg" class="w-1/2 object-contain my-auto"/>
+            <img alt="BiteCobra" class="w-1/2 object-contain my-auto" src="../../images/collage.jpg"/>
             <div class="info ml-20">
                 <h1 class="mb-5 text-8xl ">{{ __('Chose your') }} <span
                     style="font-family: Terasong, Serif">BiteCobra</span></h1>
