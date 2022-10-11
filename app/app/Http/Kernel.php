@@ -4,6 +4,7 @@ namespace App\Http;
 
 use App\Http\Middleware\AddContentSecurityPolicyHeaders;
 use App\Http\Middleware\Authenticate;
+use App\Http\Middleware\CheckUserInBattle;
 use App\Http\Middleware\EncryptCookies;
 use App\Http\Middleware\HandleInertiaRequests;
 use App\Http\Middleware\PreventRequestsDuringMaintenance;
@@ -65,7 +66,8 @@ class Kernel extends HttpKernel
             SubstituteBindings::class,
             HandleInertiaRequests::class,
             AddContentSecurityPolicyHeaders::class,
-            SetLocale::class
+            SetLocale::class,
+
         ],
 
         'api' => [
@@ -93,6 +95,7 @@ class Kernel extends HttpKernel
         'signed' => ValidateSignature::class,
         'throttle' => ThrottleRequests::class,
         'verified' => EnsureEmailIsVerified::class,
+        'notInBattle' => CheckUserInBattle::class
     ];
 
     protected $middlewarePriority = [

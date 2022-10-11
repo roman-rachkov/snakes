@@ -34,16 +34,16 @@ Route::get('/', function () {
 
 Route::get('/game', function () {
     return Inertia::render('Game/Arena', ['gameModes' => RoomMode::arrayValues()]);
-})->middleware(['auth', 'verified'])->name('game.arena');
+})->middleware(['auth', 'verified', 'notInBattle'])->name('game.arena');
 
 Route::get('/profile', function () {
     return '123';
-})->middleware(['auth'])->name('profile');
+})->middleware(['auth', 'notInBattle'])->name('profile');
 
-Route::post('chat', [ChatController::class, 'sendMessage'])->middleware(['auth', 'verified'])->name('chat');
+Route::post('chat', [ChatController::class, 'sendMessage'])->middleware(['auth', 'verified', 'notInBattle'])->name('chat');
 
-Route::get('/arena', [ArenaController::class, 'index'])->middleware(['auth', 'verified'])->name('arena');
-Route::post('/arena', [ArenaController::class, 'create'])->middleware(['auth', 'verified'])->name('arena.create');
-Route::get('/arena/battle/{room}', [ArenaController::class, 'joinRoom'])->middleware(['auth', 'verified'])->name('arena.join');
+Route::get('/arena', [ArenaController::class, 'index'])->middleware(['auth', 'verified', 'notInBattle'])->name('arena');
+Route::post('/arena', [ArenaController::class, 'create'])->middleware(['auth', 'verified', 'notInBattle'])->name('arena.create');
+Route::get('/arena/battle/{room}', [ArenaController::class, 'joinRoom'])->middleware(['auth', 'verified', 'notInBattle'])->name('arena.join');
 
 require __DIR__ . '/auth.php';

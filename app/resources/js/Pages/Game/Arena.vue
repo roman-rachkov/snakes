@@ -8,8 +8,6 @@
 
                 <div class="max-h-[520px] flex flex-col">
                     <div class="flex justify-around  pr-2">
-                        <!--                        <div class="table-td">{{ __('Character') }}</div>-->
-                        <!--                        <div class="table-td">{{ __('Player') }}</div>-->
                         <div class="table-td">{{ __('Levels') }}</div>
                         <div class="table-td">{{ __('Bid') }}</div>
                         <div class="table-td">{{ __('Mode') }}</div>
@@ -33,7 +31,7 @@
         </div>
 
         <Modal v-if="createRoomModal" @closeModal="createRoomModal= false">
-            <form @submit="makeRoom">
+            <form @submit.prevent="makeRoom">
                 <div>
                     <InputLabel for="bid" :value="__('Bid')"/>
                     <TextInput id="bid" type="number" min="0" step="10" class="mt-1 w-full" v-model="form.bid"/>
@@ -106,11 +104,8 @@ onMounted(() => {
 const makeRoom = () => {
     form.post(route('arena.create'), {
         onFinish: () => {
-                form.reset();
-        },
-        // onSuccess: (response) => {
-        //     console.log(response);
-        // }
+            form.reset();
+        }
     });
 };
 

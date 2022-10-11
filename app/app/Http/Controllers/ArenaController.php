@@ -36,7 +36,7 @@ class ArenaController extends Controller
             'mode' => 'in:' . implode(',', RoomMode::arrayValues()),
         ]);
 
-        $data['user_id'] = Auth::user()->id;
+        $data['user_id'] = Auth::user()?->id;
 
         if (str($data['password'])->length() > 0) {
             $data['status'] = RoomStatus::CLOSED;
@@ -49,8 +49,11 @@ class ArenaController extends Controller
 
     public function joinRoom(Request $request, Room $room)
     {
+        $isUserInBattle = $room->is(Auth::user()->rooms()->open()->first());
 
-        $room->users()->attach(Auth::user());
+        if(!$isUserInBattle){
+            $room->users()->attach(Auth::user());
+        }
 
         return Inertia::render('Game/BattleRoom', ['room' => $room]);
     }
