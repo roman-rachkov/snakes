@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Room;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Broadcast;
@@ -23,6 +24,13 @@ Broadcast::channel('chat.{id}', function (User $user, int $id) {
     return $user->id === $id;
 });
 
-Broadcast::channel('global.chat', function (User $user){
+Broadcast::channel('global.chat', function (User $user) {
     return Auth::user();
 }, ['guards' => ['web', 'auth', 'verified']]);
+
+Broadcast::channel('battle.{room}', function (User $user, Room $room) {
+    if ($room->is(Auth::user()->rooms()->open()->first())) {
+        return Auth::user();
+    }
+    return false;
+});

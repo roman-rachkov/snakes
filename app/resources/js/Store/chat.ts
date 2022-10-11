@@ -1,5 +1,4 @@
 import {defineStore} from "pinia";
-import {ref} from "vue";
 
 export const useChat = defineStore('chat', {
     state: () => ({

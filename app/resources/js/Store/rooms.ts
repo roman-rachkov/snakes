@@ -8,7 +8,7 @@ export const useRooms = defineStore('rooms', {
     actions: {
         async init(state) {
             // @ts-ignore
-            await axios.get(route('arena')).then(response => {
+            await axios.get(route('arena.rooms')).then(response => {
                 this.rooms = response.data;
             });
         },

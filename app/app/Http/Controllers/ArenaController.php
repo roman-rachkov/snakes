@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\RoomMode;
 use App\Enums\RoomStatus;
+use App\Events\UserJoinBattle;
 use App\Models\Room;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,7 +14,7 @@ class ArenaController extends Controller
 {
     public function index()
     {
-        $rooms = Room::open()->get();
+        $rooms = Room::wait()->get();
 
         //TODO Write normal settings
         $rooms->map(function ($item) {
@@ -51,6 +52,7 @@ class ArenaController extends Controller
     {
         $isUserInBattle = $room->is(Auth::user()->rooms()->open()->first());
 
+//        broadcast(new UserJoinBattle(Auth::user(), $room));
         if(!$isUserInBattle){
             $room->users()->attach(Auth::user());
         }

@@ -38,13 +38,11 @@ const chat = useChat();
 onMounted(() => {
     window.Echo.join('global.chat')
         .joining((user) => {
-            {
-                chat.addMessage({
-                    userName: 'System',
-                    message: 'User ' + user.name + ' join to game',
-                    time: new Date().toISOString()
-                })
-            }
+            chat.addMessage({
+                userName: 'System',
+                message: 'User ' + user.name + ' join to game',
+                time: new Date().toISOString()
+            })
         })
         .listen('ChatMessageReceived', function (event) {
             chat.addMessage({
@@ -53,6 +51,7 @@ onMounted(() => {
                 time: event.message.time
             })
         });
+    // TODO Make private chanel for user
 })
 
 const input = ref(null);

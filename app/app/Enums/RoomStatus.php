@@ -8,6 +8,7 @@ enum RoomStatus: string
 {
     case OPEN = 'Open';
     case CLOSED = 'Closed';
+    case FIGHT = 'Fight';
     case FINISHED = 'Finished';
     case CANCELED = 'Canceled';
 

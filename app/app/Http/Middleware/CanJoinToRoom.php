@@ -3,10 +3,10 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\Vite;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class AddContentSecurityPolicyHeaders
+class CanJoinToRoom
 {
     /**
      * Handle an incoming request.
@@ -17,11 +17,16 @@ class AddContentSecurityPolicyHeaders
      */
     public function handle(Request $request, Closure $next)
     {
-//        Vite::useCspNonce();
-//
-//        return $next($request)->withHeaders([
-//            'Content-Security-Policy' => 'script-src \'nonce-' . Vite::cspNonce() . '\''
-//        ]);
-        return $next($request);
+        $room = $request->route('room');
+
+        if (
+            $room->is(Auth::user()->rooms()->open()->first()) ||
+            !$room->isFull
+        ) {
+            return $next($request);
+        }
+
+        return redirect(route('arena'));
+
     }
 }
