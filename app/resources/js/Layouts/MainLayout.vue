@@ -13,21 +13,15 @@
 
 </template>
 
-<script>
+<script setup>
 
 import Header from '@/Components/Header.vue'
 import Footer from '@/Components/Footer.vue'
 import Menu from '@/Components/Menu.vue'
+import {ref} from "vue";
 
-export default {
-    name: "MainLayout",
-    components: {Header, Footer, Menu},
-    data() {
-        return {
-            showMenu: false
-        }
-    }
-}
+const showMenu = ref(false);
+
 </script>
 
 <style scoped>

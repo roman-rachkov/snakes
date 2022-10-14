@@ -12,17 +12,34 @@ export const useRooms = defineStore('rooms', {
                 this.rooms = response.data;
             });
         },
+        newRoom(room) {
+            this.rooms.push(room);
+        },
+        updateRoom(room) {
+            const index = this.rooms.findIndex(item => item.id === room.id);
+            if (index > -1) {
+                this.rooms[index] = room;
+            }
+        },
+        removeRoom(room) {
+            const index = this.rooms.findIndex(item => item.id === room.id);
+
+            if (index > -1) {
+                this.rooms.splice(index, 1);
+            }
+
+        }
     }
 });
 
 export interface room {
     id: number,
     playerName: string,
-    maxLevel: string,
-    minLevel: string,
+    max_level: string,
+    min_level: string,
     bid: number,
     mode: string,
-    currentPlayers: number,
-    maxPlayers: number,
+    current_players: number,
+    max_players: number,
     status: string
 }

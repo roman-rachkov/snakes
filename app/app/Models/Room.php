@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property int $id
+ * @property bool $isFull
  */
 class Room extends Model
 {
@@ -22,6 +23,13 @@ class Room extends Model
 
     protected $casts = [
 //        'user_id' => User::class
+    ];
+
+    protected $appends = [
+        'min_level',
+        'max_level',
+        'current_players',
+        'is_full'
     ];
 
     public function scopeOpen(Builder $builder)
@@ -37,7 +45,28 @@ class Room extends Model
     public function isFull(): Attribute
     {
         return new Attribute(
-            get: fn() => $this->users->count() === $this->max_players
+            get: fn() => $this->users->count() >= $this->max_players
+        );
+    }
+
+    public function minLevel(): Attribute
+    {
+        return new Attribute(
+            get: fn() => max(1, $this->user->snake->level - config('main.min_level', 2))
+        );
+    }
+
+    public function maxLevel(): Attribute
+    {
+        return new Attribute(
+            get: fn() => $this->user->snake->level + config('main.max_level', 2)
+        );
+    }
+
+    public function currentPlayers(): Attribute
+    {
+        return new Attribute(
+            get: fn() => $this->users->count()
         );
     }
 

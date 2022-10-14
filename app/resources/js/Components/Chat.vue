@@ -44,7 +44,7 @@ onMounted(() => {
                 time: new Date().toISOString()
             })
         })
-        .listen('ChatMessageReceived', function (event) {
+        .listen('ChatMessageReceived',  (event) => {
             chat.addMessage({
                 userName: event.message.author.name,
                 message: event.message.message,

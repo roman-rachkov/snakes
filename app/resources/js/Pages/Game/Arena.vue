@@ -1,4 +1,7 @@
 <template>
+    <Head :title="__('Arena')"/>
+
+
     <GameLayout>
         <div class="max-h-[520px] grid grid-cols-12 gap-2">
             <div class="collage col-start-1 col-end-6 h-full max-h-[520px]">
@@ -78,11 +81,10 @@ import RoomItem from "@/Components/RoomItem.vue";
 import {Icon} from "@iconify/vue";
 import Modal from "@/Components/Modal.vue";
 import InputLabel from '@/Components/InputLabel.vue';
-
 import InputError from '@/Components/InputError.vue';
 import TextInput from '@/Components/TextInput.vue';
 import SelectInput from '@/Components/SelectInput.vue';
-import {useForm, usePage} from "@inertiajs/inertia-vue3";
+import {useForm, usePage, Head} from "@inertiajs/inertia-vue3";
 
 const arena = useRooms();
 
@@ -99,6 +101,17 @@ const form = useForm({
 
 onMounted(() => {
     arena.init();
+    window.Echo.join('global.arena')
+        .listen('NewRoomCreated', (data) => {
+            arena.newRoom(data.room);
+        })
+        .listen('UserJoinBattle', (data) => {
+            arena.updateRoom(data.room);
+        })
+        .listen('BattleStarted', (data) => {
+            arena.removeRoom(data.room);
+        })
+    ;
 });
 
 const makeRoom = () => {

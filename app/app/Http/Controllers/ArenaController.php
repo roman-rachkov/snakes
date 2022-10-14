@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Enums\RoomMode;
 use App\Enums\RoomStatus;
+use App\Events\BattleStarted;
+use App\Events\NewRoomCreated;
 use App\Events\UserJoinBattle;
 use App\Models\Room;
 use Illuminate\Http\Request;
@@ -15,15 +17,6 @@ class ArenaController extends Controller
     public function index()
     {
         $rooms = Room::wait()->get();
-
-        //TODO Write normal settings
-        $rooms->map(function ($item) {
-
-            $item['min_level'] = max(1, $item->user->snake->level - config('main.min_level', 2));
-            $item['max_level'] = $item->user->snake->level + config('main.max_level', 2);
-            $item['current_players'] = $item->users->count();
-
-        });
 
         return $rooms;
     }
@@ -45,6 +38,8 @@ class ArenaController extends Controller
 
         $room = Room::create($data);
 
+        broadcast(new NewRoomCreated($room));
+
         return redirect(route('arena.join', ['room' => $room]));
     }
 
@@ -52,9 +47,17 @@ class ArenaController extends Controller
     {
         $isUserInBattle = $room->is(Auth::user()->rooms()->open()->first());
 
-//        broadcast(new UserJoinBattle(Auth::user(), $room));
-        if(!$isUserInBattle){
+        if (!$isUserInBattle && !$room->isFull) {
             $room->users()->attach(Auth::user());
+            $room->refresh();
+
+            broadcast(new UserJoinBattle(Auth::user(), $room));
+
+            if ($room->isFull) {
+                $room->status = RoomStatus::FIGHT;
+                $room->save();
+                broadcast(new BattleStarted($room));
+            }
         }
 
         return Inertia::render('Game/BattleRoom', ['room' => $room]);

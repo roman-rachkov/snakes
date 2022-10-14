@@ -28,6 +28,10 @@ Broadcast::channel('global.chat', function (User $user) {
     return Auth::user();
 }, ['guards' => ['web', 'auth', 'verified']]);
 
+Broadcast::channel('global.arena', function (User $user) {
+    return Auth::user();
+}, ['guards' => ['web', 'auth', 'verified']]);
+
 Broadcast::channel('battle.{room}', function (User $user, Room $room) {
     if ($room->is(Auth::user()->rooms()->open()->first())) {
         return Auth::user();
