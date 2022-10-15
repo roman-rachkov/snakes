@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $level
  * @property int $strength
  * @property int $dexterity
+ * @property int $current_hp
  */
 class Snake extends Model
 {
@@ -26,6 +27,18 @@ class Snake extends Model
         'user_id',
         'snake_type_id'
     ];
+
+    protected $appends = [
+        'level',
+        'max_life',
+        'max_mana',
+        'attack',
+        'defence',
+        'accuracy',
+        'dodge'
+    ];
+
+    protected $with = ['snakeType'];
 
     public function user(): BelongsTo
     {
@@ -48,6 +61,9 @@ class Snake extends Model
             'user_id' => $user->id
         ]);
 
+        $snake->current_hp = $snake->max_life;
+        $snake->current_mp = $snake->max_mana;
+        $snake->save();
     }
 
     public function level(): Attribute
@@ -96,6 +112,13 @@ class Snake extends Model
     {
         return Attribute::make(
             get: fn() => 1.5 * $this->dexterity
+        );
+    }
+
+    public function isLife(): Attribute
+    {
+        return new Attribute(
+            get: fn() => $this->current_hp > 0,
         );
     }
 }

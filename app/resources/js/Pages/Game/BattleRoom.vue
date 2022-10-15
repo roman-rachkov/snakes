@@ -2,11 +2,10 @@
 
     <Head :title="__('Battle')"/>
 
-
     <GameLayout>
         <WaitOtherPlayers v-if="waitingPlayers"/>
 
-        <BattleScreen v-else/>
+        <BattleScreen v-else :room="room"/>
 
     </GameLayout>
     <!--    <hr>{{ $page.props.room }}-->
@@ -20,6 +19,7 @@ import {usePage, Head} from "@inertiajs/inertia-vue3";
 import {useChat} from "@/Store/chat";
 import WaitOtherPlayers from "@/Components/WaitOtherPlayers.vue";
 import BattleScreen from "@/Components/BattleScreen.vue";
+import {useBattle} from "@/Store/battle";
 
 const props = defineProps({
     room: Object
@@ -29,22 +29,28 @@ const chat = useChat();
 
 const page = usePage();
 
+const battle = useBattle();
+
 const waitingPlayers = ref(true);
 
 onMounted(() => {
-    if (props.room.status === 'Fight') {
+    battle.update(props.room);
+
+    if (battle.room.status === 'Fight') {
         waitingPlayers.value = false;
     }
 
     window.Echo.join(`battle.${props.room.id}`)
-        .joining((user) => {
+        .listen('UserJoinBattle',(data) => {
+            battle.update(data.room);
             chat.addMessage({
                 userName: 'Battle',
-                message: 'User ' + user.name + ' join to battle',
+                message: 'User ' + data.user.name + ' join to battle',
                 time: new Date().toISOString()
             })
         })
         .listen('BattleStarted', (data) => {
+            battle.update(data.room);
             waitingPlayers.value = false;
         });
 });

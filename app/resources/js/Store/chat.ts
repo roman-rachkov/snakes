@@ -1,4 +1,5 @@
 import {defineStore} from "pinia";
+import {Message} from "./Interfaces/Message";
 
 export const useChat = defineStore('chat', {
     state: () => ({
@@ -10,9 +11,3 @@ export const useChat = defineStore('chat', {
         }
     }
 });
-
-interface Message {
-    userName: string,
-    message: string,
-    time: string
-}

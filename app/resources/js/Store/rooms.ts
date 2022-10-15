@@ -1,9 +1,10 @@
 import {defineStore} from "pinia";
 import axios from "axios";
+import {Room} from "./Interfaces/Room";
 
 export const useRooms = defineStore('rooms', {
     state: () => ({
-        rooms: [] as room[]
+        rooms: [] as Room[]
     }),
     actions: {
         async init(state) {
@@ -32,14 +33,3 @@ export const useRooms = defineStore('rooms', {
     }
 });
 
-export interface room {
-    id: number,
-    playerName: string,
-    max_level: string,
-    min_level: string,
-    bid: number,
-    mode: string,
-    current_players: number,
-    max_players: number,
-    status: string
-}

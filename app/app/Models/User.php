@@ -75,6 +75,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'created_at',
     ];
 
+    protected $with = ['snake'];
+
     public function referer(): BelongsTo
     {
         return $this->belongsTo(User::class, 'referer_id', 'id');
