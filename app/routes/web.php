@@ -2,6 +2,7 @@
 
 use App\Enums\RoomMode;
 use App\Http\Controllers\ArenaController;
+use App\Http\Controllers\BattleController;
 use App\Http\Controllers\ChatController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -45,5 +46,7 @@ Route::post('chat', [ChatController::class, 'sendMessage'])->middleware(['auth',
 Route::get('/arena', [ArenaController::class, 'index'])->middleware(['auth', 'verified', 'notInBattle'])->name('arena.rooms');
 Route::post('/arena', [ArenaController::class, 'create'])->middleware(['auth', 'verified', 'notInBattle'])->name('arena.create');
 Route::get('/arena/battle/{room}', [ArenaController::class, 'joinRoom'])->middleware(['auth', 'verified', 'canJoinToRoom'])->name('arena.join');
+Route::post('/arena/battle/{room}', [BattleController::class, 'turn'])->middleware(['auth', 'verified', 'canDoTurn'])->name('battle.turn');
+
 
 require __DIR__ . '/auth.php';

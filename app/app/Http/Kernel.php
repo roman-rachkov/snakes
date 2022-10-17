@@ -4,6 +4,7 @@ namespace App\Http;
 
 use App\Http\Middleware\AddContentSecurityPolicyHeaders;
 use App\Http\Middleware\Authenticate;
+use App\Http\Middleware\CanDoTurn;
 use App\Http\Middleware\CanJoinToRoom;
 use App\Http\Middleware\CheckUserInBattle;
 use App\Http\Middleware\EncryptCookies;
@@ -97,7 +98,8 @@ class Kernel extends HttpKernel
         'throttle' => ThrottleRequests::class,
         'verified' => EnsureEmailIsVerified::class,
         'notInBattle' => CheckUserInBattle::class,
-        'canJoinToRoom' => CanJoinToRoom::class
+        'canJoinToRoom' => CanJoinToRoom::class,
+        'canDoTurn' => CanDoTurn::class
     ];
 
     protected $middlewarePriority = [
