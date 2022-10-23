@@ -2,7 +2,7 @@
     <div class="w-full h-[30px] relative flex items-center justify-center rounded empty">
         <div class="h-full current-value absolute bottom-0 left-0 rounded" :class="type"
              :style="{width: currentBarSize+'%'}"></div>
-        <span class="z-10">{{ props.current }}/{{ props.max }}</span>
+        <span class="z-10" v-if="!props.hideText">{{ props.current }}/{{ props.max }}</span>
     </div>
 </template>
 
@@ -12,7 +12,8 @@ import {computed} from "vue";
 const props = defineProps({
     type: String,
     max: Number,
-    current: Number
+    current: Number,
+    hideText: Boolean
 })
 
 const currentBarSize = computed(() => props.current / (props.max / 100));
@@ -29,6 +30,11 @@ const currentBarSize = computed(() => props.current / (props.max / 100));
 .mp {
     background: rgb(0, 91, 255);
     background: linear-gradient(180deg, rgba(0, 91, 255, 0.7) 0%, rgba(255, 255, 255, 0.2) 35%, rgba(0, 91, 255, 0.7) 75%);
+}
+
+.time {
+    background: rgb(255, 239, 153);
+    background: linear-gradient(180deg, rgba(255, 239, 153, 0.7) 0%, rgba(255, 255, 255, 0.2) 35%, rgba(255, 239, 153, 0.7) 75%);
 }
 
 .empty {

@@ -9,6 +9,7 @@ use App\Events\NewRoomCreated;
 use App\Events\UserJoinBattle;
 use App\Models\Room;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
@@ -55,7 +56,9 @@ class ArenaController extends Controller
 
             if ($room->isFull) {
                 $room->status = RoomStatus::FIGHT;
+                $room->next_turn = Carbon::now()->addSeconds(30);
                 $room->save();
+//                $room->refresh();
                 broadcast(new BattleStarted($room));
             }
         }

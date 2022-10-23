@@ -14,6 +14,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $strength
  * @property int $dexterity
  * @property int $current_hp
+ * @property int $max_life
+ * @property int $current_mp
+ * @property int $max_mana
+ * @property float $dodge
+ * @property float $defence
+ * @property int $accuracy
+ * @property int $attack
  */
 class Snake extends Model
 {

@@ -6,9 +6,10 @@ namespace App\Enums;
 
 enum BattleActions: string
 {
-    case ATTACK = 'Attack';
-    case DEFEND = 'Defend';
-    case CAST = 'Cast';
+    case ATTACK = 'attack';
+    case DEFEND = 'defend';
+    case CAST = 'cast';
+    case NONE = 'none';
 
     public static function arrayValues(): array
     {

@@ -31,7 +31,7 @@ if (!function_exists('rollDice')) {
 }
 
 if (!function_exists('getSumRolledDices')) {
-    function getSumRolledDices(string $dicePattern): int
+    function getSumRolledDices(string $dicePattern = '1d6'): int
     {
         return rollDice($dicePattern)->sum();
     }

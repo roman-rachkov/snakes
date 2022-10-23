@@ -7,5 +7,6 @@ export interface Room {
     mode: string,
     current_players: number,
     max_players: number,
-    status: string
+    status: string,
+    next_turn: string
 }

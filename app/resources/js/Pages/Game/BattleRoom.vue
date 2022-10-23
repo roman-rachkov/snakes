@@ -36,12 +36,12 @@ const waitingPlayers = ref(true);
 onMounted(() => {
     battle.update(props.room);
 
-    if (battle.room.status === 'Fight') {
+    if (battle.room.status === 'fight') {
         waitingPlayers.value = false;
     }
 
     window.Echo.join(`battle.${props.room.id}`)
-        .listen('UserJoinBattle',(data) => {
+        .listen('UserJoinBattle', (data) => {
             battle.update(data.room);
             chat.addMessage({
                 userName: 'Battle',
@@ -52,7 +52,11 @@ onMounted(() => {
         .listen('BattleStarted', (data) => {
             battle.update(data.room);
             waitingPlayers.value = false;
-        });
+        })
+        .listen('BattleUpdated', (data) => {
+            battle.update(data.room);
+        })
+    ;
 });
 
 </script>

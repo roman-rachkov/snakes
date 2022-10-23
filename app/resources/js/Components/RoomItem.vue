@@ -8,10 +8,10 @@
             <Link as="button" class="rounded block w-[90%] h-10 border-2 flex justify-center items-center"
                   :class="{'border-white': props.colored, 'hover:bg-white': props.colored, 'hover:bg-slate-200': !props.colored}"
                   :href="route('arena.join', room)"
-                  :disabled="!['Open', 'Closed'].includes(props.room.status)"
+                  :disabled="!['open', 'closed'].includes(props.room.status)"
             >
                 <Icon
-                    :icon="(props.room.status === 'Closed') ? 'fluent:lock-closed-24-regular' : 'akar-icons:double-sword'"
+                    :icon="(props.room.status === 'closed') ? 'fluent:lock-closed-24-regular' : 'akar-icons:double-sword'"
                     class="mr-2"/>
                 {{
                     __('Fight')

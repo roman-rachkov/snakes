@@ -95,7 +95,7 @@ const page = usePage();
 const form = useForm({
     bid: 100,
     max_players: 2,
-    mode: 'Deathmatch',
+    mode: 'deathmatch',
     password: ''
 });
 

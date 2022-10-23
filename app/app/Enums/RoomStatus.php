@@ -6,11 +6,11 @@ namespace App\Enums;
 
 enum RoomStatus: string
 {
-    case OPEN = 'Open';
-    case CLOSED = 'Closed';
-    case FIGHT = 'Fight';
-    case FINISHED = 'Finished';
-    case CANCELED = 'Canceled';
+    case OPEN = 'open';
+    case CLOSED = 'closed';
+    case FIGHT = 'fight';
+    case FINISHED = 'finished';
+    case CANCELED = 'canceled';
 
     public static function arrayValues(): array
     {

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\RoomMode;
 use App\Enums\RoomStatus;
 use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -12,12 +13,15 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
  * @property bool $isFull
  * @property Turn $current_turn
  * @property Collection $turns
+ * @property Carbon $next_turn
+ * @property Collection $snakes
  */
 class Room extends Model
 {
@@ -27,7 +31,9 @@ class Room extends Model
 
     protected $casts = [
 //        'user_id' => User::class
-
+        'status' => RoomStatus::class,
+        'mode' => RoomMode::class,
+        'next_turn' => 'datetime'
     ];
 
     protected $appends = [
@@ -35,11 +41,10 @@ class Room extends Model
         'max_level',
         'current_players',
         'is_full',
-        'current_turn',
-        'next_turn_in'
+        'current_turn'
     ];
 
-    protected $with = ['turns'];
+    protected $with = ['turns', 'users'];
 
     public function scopeOpen(Builder $builder)
     {
@@ -54,13 +59,6 @@ class Room extends Model
     public function scopeInFight(Builder $builder)
     {
         return $builder->where('status', RoomStatus::FIGHT);
-    }
-
-    public function nextTurnIn(): Attribute
-    {
-        return new Attribute(
-            get: fn() => $this->updated_at->addSeconds(30),
-        );
     }
 
     public function isFull(): Attribute
