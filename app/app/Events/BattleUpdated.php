@@ -34,6 +34,6 @@ class BattleUpdated implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('battle.' . $this->room->id);
+        return new PresenceChannel('battle.' . $this->room->id);
     }
 }

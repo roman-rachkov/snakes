@@ -47,7 +47,7 @@ onMounted(() => {
                 userName: 'Battle',
                 message: 'User ' + data.user.name + ' join to battle',
                 time: new Date().toISOString()
-            })
+            });
         })
         .listen('BattleStarted', (data) => {
             battle.update(data.room);

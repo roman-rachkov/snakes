@@ -16,7 +16,12 @@ const props = defineProps({
     hideText: Boolean
 })
 
-const currentBarSize = computed(() => props.current / (props.max / 100));
+const currentBarSize = computed(() => {
+    const size = props.current / (props.max / 100);
+
+    return size > 100 ? 100 : size < 0 ? 0 : size;
+
+});
 
 </script>
 

@@ -41,10 +41,16 @@ class Room extends Model
         'max_level',
         'current_players',
         'is_full',
-        'current_turn'
+        'last_turn',
+        'snakes'
     ];
 
-    protected $with = ['turns', 'users'];
+    protected $hidden = [
+        'turns',
+        'users',
+        'created_at',
+        'updated_at'
+    ];
 
     public function scopeOpen(Builder $builder)
     {
@@ -104,10 +110,24 @@ class Room extends Model
         return $this->hasMany(Turn::class);
     }
 
+    public function lastTurn(): Attribute
+    {
+        return new Attribute(
+            get: fn() => $this->turns->last()
+        );
+    }
+
     public function currentTurn(): Attribute
     {
         return new Attribute(
             get: fn() => $this->turns()->where('ended', false)->first(),
+        );
+    }
+
+    public function snakes(): Attribute
+    {
+        return new Attribute(
+            get: fn() => $this->users->map(fn(User $user) => $user->snake),
         );
     }
 

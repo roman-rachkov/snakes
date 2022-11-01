@@ -39,17 +39,25 @@ class DoTurn implements ShouldQueue
     {
         $rooms = Room::inFight()->get();
         $rooms->each(function (Room $room, $index) {
-            if (Carbon::now() >= $room->next_turn && !is_null($room->current_turn)) {
+            if (Carbon::now() >= $room->next_turn) {
+                if (is_null($room->current_turn)) {
+                    $room->turns()->create([
+                        'turn' => $room->turns->count() + 1
+                    ]);
+                }
                 //Обновляем всем хп в начале раунда
-                $room->users->each(function (User $user) {
-                    if ($user->snake->current_hp < $user->snake->max_life && $user->snake->current_hp > 0) {
-                        $user->snake->current_hp++;
+                $room->snakes->each(function (Snake $snake) use ($room) {
+                    if ($snake->current_hp < $snake->max_life && $snake->current_hp > 0) {
+                        $snake->current_hp++;
                     }
-                    if ($user->snake->current_mp < $user->snake->max_mana && $user->snake->current_mp > 0) {
-                        $user->snake->current_mp++;
+                    if ($snake->current_mp < $snake->max_mana && $snake->current_mp > 0) {
+                        $snake->current_mp++;
                     }
-                    $user->save();
+                    $snake->save();
                 });
+                $room->current_turn->logs()->create([
+                    'log' => 'All life snakes restore 1 HP.',
+                ]);
                 $room->refresh();
 
                 $room->current_turn->actions->each(function (Action $action) use ($room) {
@@ -85,7 +93,7 @@ class DoTurn implements ShouldQueue
                         ]);
 
                         $targetDefends = $room->current_turn->actions->where('caster_id', $action->target->id)
-                            ->where('action', BattleActions::DEFEND)->get();
+                            ->where('action', BattleActions::DEFEND);
 
                         $targetDefends->each(function ($defence) use ($room) {
                             $room->current_turn->logs()->create([
@@ -97,13 +105,14 @@ class DoTurn implements ShouldQueue
 
                         $targetDefend = 0;
 
-                        if (is_null($targetDefends->where('direction', $action->direction)->first())) {
+                        if (!is_null($targetDefends->where('direction', $action->direction)->first())) {
                             $targetDefend = floor(getSumRolledDices('1d20') + $action->target->defence);
                         }
 
                         $damage = max(1, $casterAttack - $targetDefend);
 
                         $action->target->current_hp -= $damage;
+                        $action->target->save();
                         $action->damage = $damage;
                         $action->save();
 
@@ -115,11 +124,12 @@ class DoTurn implements ShouldQueue
 
                     }
                 });
+
                 $room->current_turn->ended = true;
                 $room->current_turn->save();
                 $room->next_turn = Carbon::now()->addMinute();
                 $room->save();
-                broadcast(new BattleUpdated($room));
+                broadcast(new BattleUpdated($room->withoutRelations()));
             }
         });
     }

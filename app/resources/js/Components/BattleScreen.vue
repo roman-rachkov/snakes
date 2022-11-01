@@ -1,8 +1,8 @@
 <template>
     <div class="w-full h-full rounded  flex items-center justify-between px-5">
-        <Snake :snake="battle.room.users[battle.room.users.findIndex(item => item.id === $page.props.auth.user.id)].snake"/>
+        <Snake :snake="battle.room.snakes[battle.room.snakes.findIndex(snake => snake.id === $page.props.auth.user.snake.id)]"/>
         <FightControls/>
-        <Snake :left="true" :snake="battle.room.users[0].snake"/>
+        <Snake :left="true" :snake="battle.room.snakes[battle.room.snakes.findIndex(snake => snake.id !== $page.props.auth.user.snake.id)]"/>
     </div>
 </template>
 

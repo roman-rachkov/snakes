@@ -35,7 +35,7 @@ class BattleController extends Controller
 
         $actions->each(function ($item) use ($points, $room) {
             $action = $item['action'];
-            dump($this->getActionCost($action));
+
             if ($this->getActionCost($action) <= $points) {
                 $points -= $this->getActionCost($action);
 

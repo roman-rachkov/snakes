@@ -26,7 +26,7 @@ Route::get('language/{language}', function (string $language) {
 
 Route::get('/', function () {
     return Inertia::render('Welcome');
-})->name('main');
+})->middleware(['notInBattle'])->name('main');
 
 Route::get('/game', function () {
     return Inertia::render('Game/Arena', ['gameModes' => RoomMode::arrayValues()]);

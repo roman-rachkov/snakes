@@ -1,5 +1,5 @@
 <template>
-    <div class="rounded" disabled="true">
+    <div class="rounded" :disabled="isTurned">
         <p class="points text-center mb-2">
             {{ __('Action points') }}: {{ points }}/2
         </p>
@@ -42,7 +42,7 @@
             </div>
         </div>
         <div class="attack-btn">
-            <Bar :hide-text="false" :current="lineProperties.current" :max="lineProperties.max" type="time"/>
+            <Bar :hide-text="false" :current="battle.currentTurnTime" :max="battle.maxTurnTime" type="time"/>
         </div>
     </div>
 </template>
@@ -54,14 +54,16 @@ import {isEqual} from "lodash";
 import {usePage} from "@inertiajs/inertia-vue3";
 import axios from "axios";
 import Bar from "@/Components/Bar.vue";
+import {useChat} from "@/Store/chat";
 
 const page = usePage();
 
 const points = ref(2);
 
 const battle = useBattle();
+const chat = useChat();
 
-const target = ref(battle.room.users[battle.room.users.findIndex(user => user.id !== page.props.value.auth.user.id)].snake.id)
+const target = ref(battle.room.snakes[battle.room.snakes.findIndex(snake => snake.id !== page.props.value.auth.user.snake.id)].id)
 const caster = ref(page.props.value.auth.user.snake.id);
 
 const actions = ref([]);
@@ -71,7 +73,7 @@ const time = ref(Date.now());
 const isTurned = ref(false);
 
 const turnStartTime = ref(Date.now());
-const nextTurnIn = ref(new Date(battle.room.next_turn).getTime() - 3000);
+const nextTurnIn = ref(new Date(battle.room.next_turn).getTime() - 15000);
 
 const lineProperties = ref({
     current: 0,
@@ -80,26 +82,29 @@ const lineProperties = ref({
 
 onMounted(() => {
     setInterval(() => {
-        lineProperties.value.current = Date.now() - turnStartTime.value;
-    }, 10);
-    setInterval(() => {
-        if (Date.now() >= nextTurnIn.value && !isTurned.value) {
-            axios.post(route('battle.turn', {'room': battle.room.id}), {actions: actions.value}, {}).then((response) => {
-                console.log(response);
-                isTurned.value = true;
-            })
+        battle.currentTurnTime = Date.now() - battle.turnStartTime;
+        if (Date.now() >= battle.nextTurnIn) {
+            battle.doTurn();
         }
-    }, 1000);
+    }, 100);
 })
 
 watch(battle.room, () => {
-    isTurned.value = false;
-    nextTurnIn.value = battle.room.next_turn - 3000;
-    turnStartTime.value = Date.now();
-    lineProperties.value = {
-        current: 0,
-        max: nextTurnIn.value - turnStartTime.value
-    };
+    battle.initTurn();
+    // isTurned.value = false;
+    // nextTurnIn.value = new Date(battle.room.next_turn).getTime() - 15000;
+    // turnStartTime.value = Date.now();
+    // lineProperties.value = {
+    //     current: 0,
+    //     max: nextTurnIn.value - turnStartTime.value
+    // };
+    // battle.room.last_turn.logs.forEach((log) => {
+    //     chat.addMessage({
+    //         userName: 'Battle',
+    //         message: 'Turn №' + battle.room.last_turn.turn + " - " + log.log,
+    //         time: new Date().toISOString()
+    //     })
+    // })
 })
 
 const setActionToTurn = (e) => {

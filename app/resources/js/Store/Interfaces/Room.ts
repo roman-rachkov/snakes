@@ -8,5 +8,6 @@ export interface Room {
     current_players: number,
     max_players: number,
     status: string,
-    next_turn: string
+    next_turn: string,
+    last_turn: object
 }
